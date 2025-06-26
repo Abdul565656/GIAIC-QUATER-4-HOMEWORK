@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Starlight Crypto AI</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  
+  <!-- Animate.css -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css" />
+  
+  <!-- Custom Styles (Starlight Theme) -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <main class="container">
+    <!-- The z-index is needed to keep the card content above the pseudo-element glow -->
+    <div class="glass-card mx-auto p-4 p-lg-5 animate__animated animate__zoomIn" style="z-index: 1;">
+      
+      <!-- Header -->
+      <div class="text-center mb-4">
+        <h1 class="display-4 gradient-text"><i class="bi bi-stars"></i> Starlight AI</h1>
+        <p class="sub-heading fs-5 mt-2">Ask the cosmos for real-time crypto data.</p>
+      </div>
+
+      <!-- Form -->
+      <form id="crypto-form" method="POST">
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" name="query" id="queryInput" placeholder="BTCUSDT" required />
+          <label for="queryInput">Enter symbol or question...</label>
+        </div>
+        
+        <!-- Interactive Coin Examples -->
+        <div class="example-coins-container">
+            <span class="example-coin" data-symbol="BTCUSDT">BTC</span>
+            <span class="example-coin" data-symbol="ETHUSDT">ETH</span>
+            <span class="example-coin" data-symbol="SOLUSDT">SOL</span>
+            <span class="example-coin" data-symbol="BNBUSDT">BNB</span>
+            <span class="example-coin" data-symbol="XRPUSDT">XRP</span>
+            <span class="example-coin" data-symbol="DOGEUSDT">DOGE</span>
+        </div>
+        
+        <button type="submit" class="btn btn-gradient w-100 fs-5 fw-bold">
+          <i class="bi bi-search me-2"></i>Query Agent
+        </button>
+      </form>
+
+      <!-- Loading Indicator -->
+      <div id="loading" class="loading-dots">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <!-- Response Area (uses Jinja template) -->
+      {% if response %}
+      <div id="response" class="response-area animate__animated animate__fadeIn mt-4">
+        <strong><i class="bi bi-cpu-fill"></i>Agent's Response:</strong>
+        <p class="mb-0">{{ response }}</p>
+      </div>
+      {% endif %}
+      
+    </div>
+  </main>
+
+  <footer class="text-center mt-4">
+    <small>© 2025 Starlight AI. Powered by Gemini API + Binance</small>
+  </footer>
+
+  <!-- Script to handle form loading and interactive examples -->
+  <script>
+    const form = document.getElementById('crypto-form');
+    const loadingIndicator = document.getElementById('loading');
+    const queryInput = document.getElementById('queryInput');
+    const exampleCoins = document.querySelectorAll('.example-coin');
+
+    form.addEventListener('submit', () => {
+      const responseArea = document.getElementById('response');
+      if (responseArea) {
+        responseArea.style.display = 'none';
+      }
+      loadingIndicator.style.display = 'flex';
+    });
+    
+    exampleCoins.forEach(coin => {
+      coin.addEventListener('click', () => {
+        queryInput.value = coin.getAttribute('data-symbol');
+        queryInput.focus();
+      });
+    });
+  </script>
+
+</body>
+</html>

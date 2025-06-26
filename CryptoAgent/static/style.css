@@ -1,0 +1,189 @@
+/* --- Google Font --- */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* --- CSS Variables for the "Starlight" Theme --- */
+:root {
+  --bg-color-deep: #0c0a1a;
+  --bg-color-light: #1a1a2e;
+  --text-primary: #f0f0f0;
+  --text-secondary: #a9a3c7;
+  --card-bg: rgba(26, 26, 46, 0.6); /* Semi-transparent indigo */
+  --card-border: rgba(169, 163, 199, 0.2);
+  --accent-glow: #a259ff;
+  --accent-glow-transparent: rgba(162, 89, 255, 0);
+  --accent-gradient: linear-gradient(90deg, #a259ff 0%, #6c91ff 100%);
+  --input-bg: #110f21;
+  --input-border: #4a456c;
+  --input-focus-glow: rgba(162, 89, 255, 0.25);
+  --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* --- Animated Starfield Background --- */
+@keyframes move-bg {
+  from { background-position: 0 0; }
+  to { background-position: 10000px 5000px; }
+}
+
+body {
+  background-color: var(--bg-color-deep);
+  background-image: radial-gradient(var(--text-secondary), transparent 1px),
+                    radial-gradient(var(--text-secondary), transparent 1px);
+  background-size: 10px 10px; /* Adjust for star density */
+  background-position: 0 0, 5px 5px; /* Offset for a random look */
+  animation: move-bg 200s linear infinite;
+  min-height: 100vh;
+  color: var(--text-primary);
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+/* --- Main Card with Animated Gradient Border --- */
+.glass-card {
+  position: relative; /* Needed for the pseudo-element glow */
+  background: var(--card-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  max-width: 600px;
+  width: 100%;
+  color: var(--text-primary);
+  overflow: hidden; /* Hide overflowing glow */
+  transition: transform 0.3s ease;
+}
+
+/* The animated glowing border effect */
+@keyframes rotate-glow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: conic-gradient(
+    transparent,
+    var(--accent-glow-transparent),
+    var(--accent-glow)
+  );
+  animation: rotate-glow 6s linear infinite;
+  z-index: -1;
+}
+
+/* --- Typography --- */
+.gradient-text {
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+}
+
+.sub-heading { color: var(--text-secondary); }
+
+/* --- Interactive Coin Examples --- */
+.example-coin {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px solid var(--input-border);
+  transition: all 0.3s ease;
+}
+.example-coin:hover {
+  background-color: rgba(162, 89, 255, 0.15);
+  color: var(--text-primary);
+  border-color: var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+/* --- Form Elements with Shimmer Button --- */
+.form-control {
+  background-color: var(--input-bg);
+  border: 1px solid var(--input-border);
+  color: var(--text-primary);
+  padding: 1.1rem 1rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+.form-control:focus {
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--accent-glow);
+  box-shadow: 0 0 0 4px var(--input-focus-glow);
+}
+.form-floating > label { color: var(--text-secondary); }
+
+.btn-gradient {
+  position: relative;
+  overflow: hidden;
+  background: var(--accent-gradient);
+  border: none;
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  font-weight: 600;
+  color: white;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.btn-gradient:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 20px rgba(162, 89, 255, 0.4);
+}
+
+/* Shimmer effect on button hover */
+@keyframes shimmer {
+  0% { transform: translateX(-100%) skewX(-20deg); }
+  100% { transform: translateX(200%) skewX(-20deg); }
+}
+.btn-gradient::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.btn-gradient:hover::after {
+  opacity: 1;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* --- Response & Loading Area --- */
+.response-area {
+  background: var(--input-bg);
+  border-left: 4px solid;
+  border-image: var(--accent-gradient) 1;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+.response-area strong {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.loading-dots span { background-color: var(--text-secondary); }
+
+/* --- Footer --- */
+footer { padding: 2rem 0; color: var(--text-secondary); opacity: 0.6; }
+
+/* Re-using some styles from previous answer to keep it DRY */
+.example-coins-container { text-align: center; margin: 0rem 0 2rem; }
+.example-coin { display: inline-block; padding: 0.4rem 0.9rem; margin: 0.25rem; border-radius: 20px; font-size: 0.9em; font-weight: 500; cursor: pointer; }
+.loading-dots { display: none; align-items: center; justify-content: center; gap: 8px; margin-top: 1.5rem; }
+.loading-dots span { width: 12px; height: 12px; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
+.loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+.loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1.0); } }
